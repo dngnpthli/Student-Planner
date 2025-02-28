@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWC STUDENT PLANNER | LOGIN PAGE</title>
+    <!-- google font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="assets/logopwc.png" rel="icon">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="css/signup.css" />
+    <link rel="stylesheet" href="css/sign-entrypage.css" />
+    <link rel="stylesheet" href="css/signstyle.css" />
+  </head>
+  <body>
+    <section class="container">
+      <header>Welcome back</header>
+      <form action="#" class="form">
+        <div class="input-box">
+          <label for="email">School ID Number</label>
+          <input type="text" id="email" placeholder="Enter your school ID number" class="input" required />
+        </div>
+
+        <div class="input-box">
+          <label for="password">Password</label>
+          <input type="password" id="psw" placeholder="Enter your password" class="input" required />
+        </div>
+
+        <button id="submitData" type="button" name="submitData" class="button regular-button pink-background cta-btn" class="registerbtn">Login</button>
+      </form>
+      <p class="sign-up-prompt">
+        Don’t have an account?
+        <a href="signup.html" class="sign-up-link">Register</a>
+      </p>
+    </section>
+  </body>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+    import { getDatabase, get, child, set, ref, update } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAT3IkIdZfoTQ_WWlMo9WjB87_hEZ9H7s8",
+      authDomain: "pwc-studentplanner-system.firebaseapp.com",
+      databaseURL: "https://pwc-studentplanner-system-default-rtdb.firebaseio.com",
+      projectId: "pwc-studentplanner-system",
+      storageBucket: "pwc-studentplanner-system.appspot.com",
+      messagingSenderId: "567680897211",
+      appId: "1:567680897211:web:9dc86820eb1782a90c199e"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const database = getDatabase(app);
+    const dbref = ref(database);
+    var uname = " ";
+
+    submitData.addEventListener('click', (e) => {
+      var email = document.getElementById('email').value;
+      var pw = document.getElementById('psw').value;
+      getEmail(email, pw);
+    });
+
+    email.addEventListener("keypress", function(e){
+
+      var key = e.which || e.keyCode || e.key || 0;
+
+      if(key === 13){
+        var email = document.getElementById('email').value;
+        var pw = document.getElementById('psw').value;
+        getEmail(email, pw);
+      }
+    });
+
+    psw.addEventListener("keypress", function(e){
+
+      var key = e.which || e.keyCode || e.key || 0;
+
+      if(key === 13){
+        var email = document.getElementById('email').value;
+        var pw = document.getElementById('psw').value;
+        getEmail(email, pw);
+      }
+    });
+
+    function getEmail(emails, passwords){
+
+      get(child(dbref, `IdNos/${emails}`)).then((snapshot) => {
+
+        if(snapshot.exists()){
+
+          uname = snapshot.val();
+          console.log("uname: "+uname+" password: "+passwords);
+          signInWithEmailAndPassword(auth, uname, passwords)
+            .then((userCredential) => {
+
+              const user = userCredential.user;
+
+              var lgDate = new Date();
+              update(ref(database, 'students/' + user.uid), {
+                last_login: lgDate,
+              })
+                .then(() => {
+
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Welcome!',
+                    text: 'You have successfully logged in.',
+                    showConfirmButton: false,
+                    timer: 3000,
+                  }).then(() => {
+                    window.location.href = 'homeview.html';
+                  });
+                })
+                .catch((error) => {
+
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+
+                    if (errorCode === 'auth/email-already-in-use' || errorCode === 'auth/uid-already-exists') {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Error',
+                        text: 'The student name or ID number already exists. Try another one.',
+                      });
+                    } else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Error',
+                        text: errorMessage,
+                      });
+                    }
+                  });
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error Login',
+                  text: 'Incorrect Email or Password',
+                });
+              });
+        }
+        else {
+
+          console.log("On failed getEmail(Login): No Data Available");
+        }
+      }).catch((error) =>{
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error Login',
+            text: 'Failed',
+          });
+        });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</html>

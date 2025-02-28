@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.0.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link href="assets/logopwc.png" rel="icon">
+    <style>
+      button {
+          font-family: 'Poppins', sans-serif;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>PWC | STUDENT PLANNER</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav__logo">
+        <a href="https://pwc.edu.ph/" style="font-size: 24px;">
+          <img src="assets/pwc.png" alt="PWC Logo" class="logo-img">
+          <b>Philippine Women's College of Davao</b>
+        </a>
+      </div>
+      <ul class="nav__links">
+        <li class="link" onclick="refreshPage()" style="font-size: 24px;"><b>Home</b></li>
+        <li class="link" onclick="redirectToLogin()" style="font-size: 24px;"><b>Login</b></li>
+        <li class="link" onclick="redirectToRegister()" style="font-size: 24px;"><b>Register</b></li>
+      </ul>
+    </nav>
+    <header>
+      <div class="section__container">
+        <div class="header__content">
+          <h1 style="font-size: 6rem;">STUDENT PLANNER</h1>
+          <p style="font-size: 1.5rem; color: black;"><b>
+            Revolutionize Your Academic Journey with Our Digital Planner.
+          </b></p>
+          <a id="redirectLink">
+            <button id="redirectButton" onclick="redirectToDashboard()"><b>Get Started</b></button>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    
+
+    <script>
+      function refreshPage() {
+        location.reload(true);
+      }
+      function redirectToRegister() {
+          window.location.href = 'signup.html';
+      }
+      function redirectToLogin() {
+          window.location.href = 'login.html';
+      }
+    </script>
+    <script>
+      function redirectToDashboard() {
+        // Show loading pop-up with a custom logo
+        Swal.fire({
+          title: '<span style="color: maroon;">LOADING....</span>',
+          html: '<div style="display: flex; align-items: center;">' +
+                '<img src="assets/spinner.png" style="width: 50px; margin-right: 15px;">' +
+                '<span style="color: black;">Were guiding you to the login page to kickstart your journey.</span>' +
+                '</div>',
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          willOpen: () => {
+            // Disable the button during the redirect
+            document.getElementById('redirectButton').disabled = true;
+          },
+        });
+    
+        // Redirect to login.html after a short delay
+        setTimeout(function () {
+          // Enable the button before redirecting
+          document.getElementById('redirectButton').disabled = false;
+    
+          // Close the loading pop-up
+          Swal.close();
+    
+          // Redirect to login.html
+          window.location.href = 'login.html';
+        }, 4000); // Adjust the delay as needed
+      }
+    </script>
+    <script>
+      document.getElementById("see-more-button").addEventListener("click", function() {
+          // Define the action to take when the button is clicked
+          // For example, navigate to another page
+          window.location.href = "adminsps/login.html";
+      });
+    </script>
+  </body>
+</html>

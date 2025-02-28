@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWC STUDENT PLANNER | DASHBOARD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="assets/logopwc.png" rel="icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="notes/style.css">
+    <link rel="stylesheet" href="css/window.css">
+    <link rel="stylesheet" href="css/draw.css">
+    <link rel="stylesheet" href="css/profile.css">
+  </head>
+  <body>
+    <!-- Because body has height 100%, we need a container to wrap the individual 
+    elements. The purpose is to add top & bottom padding -->
+    <div class="content-container">
+      <!-- success notification -->
+      <div id="notification" class="notification green-background">
+        <iconify-icon
+          icon="mdi:check-circle-outline"
+          style="color: black"
+          width="24"
+          height="24"
+        ></iconify-icon>
+        <p>The task was deleted</p>
+      </div>
+      <!-- header -->
+      <div class="max-width-container">
+        <div class="header flex items-center justify-between">
+          <div class="nav__logo">
+            <a href="homeview.html">
+              <img src="assets/pwc.png" alt="PWC Logo" class="logo-img">
+              <span class="logo-text">Student Planner</span>
+            </a>
+          </div>
+          <div class="buttons-container">
+            <div class="buttons-container">
+              <div class="profile-dropdown">
+                <div onclick="toggle()" class="profile-dropdown-btn">
+                  <div class="profile-img">
+                    <i class="fa-solid fa-circle"></i>
+                  </div>
+        
+                  <span
+                    >Student
+                    <i class="fa-solid fa-angle-down"></i>
+                  </span>
+                </div>
+        
+                <ul class="profile-dropdown-list">
+                  <li class="profile-dropdown-list-item">
+                    <a href="profileview.html">
+                      <i class="fa-regular fa-user"></i>
+                      Edit Profile
+                    </a>
+                  </li>
+        
+                  <hr />
+        
+                  <li class="profile-dropdown-list-item">
+                    <a onclick="logout()">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      Log out
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- radio buttons -->
+      <div class="radio-buttons-container">
+        <div class="max-width-container flex">
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="listview.html">
+              <iconify-icon
+                icon="material-symbols:format-list-bulleted-rounded"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Scheduled List</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="boardview.html">
+              <iconify-icon
+                icon="fluent:board-16-regular"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Board</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="calendarview.html">
+              <iconify-icon
+                icon="ic:round-event"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Calendar</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="notesview.html">
+              <iconify-icon
+                icon="mdi:note-plus-outline"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Notes</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="progressview.html">
+              <iconify-icon
+                icon="bi:bar-chart-line"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>My Progress</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="drawview.html">
+              <iconify-icon
+                icon="mdi:draw-pen"
+                style="color: maroon; font-weight: bold;"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span style="color: maroon; font-weight: bold;">Draw</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- tasks -->
+      <div class="container">
+      <section class="tools-board">
+        <div class="row">
+          <label class="title"><b>Shapes</b></label>
+          <ul class="options">
+            <li class="option tool" id="rectangle">
+              <img src="icons/rectangle.svg" alt="">
+              <span>Rectangle</span>
+            </li>
+            <li class="option tool" id="circle">
+              <img src="icons/circle.svg" alt="">
+              <span>Circle</span>
+            </li>
+            <li class="option tool" id="triangle">
+              <img src="icons/triangle.svg" alt="">
+              <span>Triangle</span>
+            </li>
+            <li class="option">
+              <input type="checkbox" id="fill-color">
+              <label for="fill-color">Fill color</label>
+            </li>
+          </ul>
+        </div>
+        <div class="row">
+          <label class="title"><b>Options</b></label>
+          <ul class="options">
+            <li class="option active tool" id="brush">
+              <img src="icons/brush.svg" alt="">
+              <span>Brush</span>
+            </li>
+            <li class="option tool" id="eraser">
+              <img src="icons/eraser.svg" alt="">
+              <span>Eraser</span>
+            </li>
+            <li class="option">
+              <input type="range" id="size-slider" min="1" max="30" value="5">
+            </li>
+          </ul>
+        </div>
+        <div class="row colors">
+          <label class="title"><b>Colors</b></label>
+          <ul class="options">
+            <li class="option"></li>
+            <li class="option selected"></li>
+            <li class="option"></li>
+            <li class="option"></li>
+            <li class="option">
+              <input type="color" id="color-picker" value="#4A98F7">
+            </li>
+          </ul>
+        </div>
+        <div class="row buttons">
+          <button class="clear-canvas">Clear Canvas</button>
+          <button class="save-img">Save As Image</button>
+        </div>
+      </section>
+      <section class="drawing-board">
+        <canvas></canvas>
+      </section>
+    </div>
+    </div>
+    <!-- add + update task -->
+    <div id="set-task-overlay" class="overlay set-task-overlay hide">
+      <div class="overlay-content pink-background">
+        <!-- close button -->
+        <button
+          class="button circle-button blue-background flex justify-center items-center close-button"
+        >
+          <iconify-icon
+            icon="material-symbols:close-rounded"
+            style="color: black"
+            width="26"
+            height="26"
+          ></iconify-icon>
+        </button>
+        <h1 class="header">Add task</h1>
+        <form class="form" autocomplete="off">
+          <label for="name" class="label">Name</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="input white-background"
+            required
+          />
+          <label for="description" class="label">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            rows="8"
+            class="textarea-input white-background"
+            required
+          ></textarea>
+          <h2 class="label">Due date</h2>
+          <div class="divided-inputs-container">
+            <div>
+              <label for="due-date-day" class="secondary-label">Day</label>
+              <input
+                type="text"
+                name="due-date-day"
+                id="due-date-day"
+                class="input white-background"
+                required
+              />
+            </div>
+            <div>
+              <label for="due-date-month" class="secondary-label">Month</label>
+              <input
+                type="text"
+                name="due-date-month"
+                id="due-date-month"
+                class="input white-background"
+                required
+              />
+            </div>
+            <div>
+              <label for="due-date-year" class="secondary-label">Year</label>
+              <input
+                type="text"
+                name="due-date-year"
+                id="due-date-year"
+                class="input white-background"
+                required
+              />
+            </div>
+          </div>
+          <h2 class="label">Status</h2>
+          <div
+            id="status-select"
+            class="status-select white-background flex items-center justify-between cursor-pointer"
+          >
+            <span>To do</span>
+            <iconify-icon
+              icon="material-symbols:arrow-back-ios-rounded"
+              style="color: black"
+              width="18"
+              height="18"
+              class="arrow-icon"
+            ></iconify-icon>
+          </div>
+          <ul
+            id="status-dropdown"
+            class="status-dropdown white-background hide"
+          >
+            <li>
+              <input
+                type="radio"
+                id="to-do-radio"
+                name="status-option"
+                value="To do"
+                class="radio-input"
+              />
+              <label for="to-do-radio" class="radio-label">
+                <span class="circle pink-background"></span><span>To do</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="doing-radio"
+                name="status-option"
+                value="Doing"
+                class="radio-input"
+              />
+              <label for="doing-radio" class="radio-label">
+                <span class="circle blue-background"></span><span>Doing</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="done-radio"
+                name="status-option"
+                value="Done"
+                class="radio-input"
+              />
+              <label for="done-radio" class="radio-label">
+                <span class="circle green-background"></span><span>Done</span>
+              </label>
+            </li>
+          </ul>
+          <div class="text-center">
+            <button
+              type="submit"
+              class="button regular-button green-background cta-button"
+            >
+              Add task
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- view task -->
+    <div id="view-task-overlay" class="overlay view-task-overlay hide">
+      <div class="overlay-content green-background">
+        <!-- close button -->
+        <button
+          class="button circle-button blue-background flex justify-center items-center close-button"
+        >
+          <iconify-icon
+            icon="material-symbols:close-rounded"
+            style="color: black"
+            width="26"
+            height="26"
+          ></iconify-icon>
+        </button>
+        <h1 class="header no-margin">Name</h1>
+        <p class="value">some long task name</p>
+        <h1 class="header">Description</h1>
+        <p class="value">
+          some long task namesome long task namesome long task name
+        </p>
+        <div class="flex items-center">
+          <h1 class="header min-width">Due date</h1>
+          <p class="value">January 7, 2020</p>
+        </div>
+        <div class="flex items-center">
+          <h1 class="header min-width">Status</h1>
+          <p class="value status-value">
+            <span class="circle blue-background"></span><span>Doing</span>
+          </p>
+        </div>
+        <div class="control-buttons-container">
+          <!-- edit button -->
+          <button
+            class="button circle-button pink-background flex justify-center items-center"
+          >
+            <iconify-icon
+              icon="material-symbols:edit-rounded"
+              style="color: black"
+              width="24"
+              height="24"
+            ></iconify-icon>
+          </button>
+          <!-- delete button -->
+          <button
+            id="delete-task-cta"
+            class="button circle-button pink-background flex justify-center items-center"
+          >
+            <iconify-icon
+              icon="ic:round-delete"
+              style="color: black"
+              width="24"
+              height="24"
+            ></iconify-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- import IconifyIcon web component -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <!-- js -->
+    <script src="js/main.js"></script>
+    <script>
+      function redirect() {
+        // Set the new URL to index.html
+        window.location.href = 'index.html';
+      }
+    </script>
+    <script>
+      let profileDropdownList = document.querySelector(".profile-dropdown-list");
+      let btn = document.querySelector(".profile-dropdown-btn");
+
+      let classList = profileDropdownList.classList;
+
+      const toggle = () => classList.toggle("active");
+
+      window.addEventListener("click", function (e) {
+        if (!btn.contains(e.target)) classList.remove("active");
+      });
+    </script>
+    <script>
+      // Function to logout
+      function logout() {
+          Swal.fire({
+              icon: 'info',
+              title: 'Logging Out',
+              text: 'Thank you for using the PWC Student Planner App',
+              timer: 2000, // Set a timer to automatically close the alert after 2 seconds
+              showConfirmButton: false // Hide the "OK" button
+          }).then(() => {
+              // Redirect to index.html after logout
+              window.location.href = "index.html";
+          });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="js/draw.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWC STUDENT PLANNER | DASHBOARD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="assets/logopwc.png" rel="icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="notes/style.css">
+    <link rel="stylesheet" href="css/window.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: beige;
+        align-items: center;
+        justify-content: center;
+      }
+      ::selection{
+        color: #fff;
+        background: #6665ee;
+      }
+      .center {
+        margin: 0.5in 1in 0 1in;
+        margin-left: 1in;
+        margin-right: 1in;
+      }
+      .skill-bars{
+        padding: 25px 30px;
+        width: 1200px;
+        background: #fff;
+        box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
+        border-radius: 10px;
+      }
+      .skill-bars .bar{
+        margin: 20px 0;
+      }
+      .skill-bars .bar:first-child{
+        margin-top: 0px;
+      }
+      .skill-bars .bar .info{
+        margin-bottom: 5px;
+      }
+      .skill-bars .bar .info span{
+        font-weight: 500;
+        font-size: 17px;
+        opacity: 0;
+        animation: showText 0.5s 1s linear forwards;
+      }
+      @keyframes showText {
+        100%{
+          opacity: 1;
+        }
+      }
+      .skill-bars .bar .progress-line{
+        height: 10px;
+        width: 100%;
+        background: #f0f0f0;
+        position: relative;
+        transform: scaleX(0);
+        transform-origin: left;
+        border-radius: 10px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.05),
+                    0 1px rgba(255,255,255,0.8);
+        animation: animate 1s cubic-bezier(1,0,0.5,1) forwards;
+      }
+      @keyframes animate {
+        100%{
+          transform: scaleX(1);
+        }
+      }
+      .bar .progress-line span{
+        height: 100%;
+        position: absolute;
+        border-radius: 10px;
+        transform: scaleX(0);
+        transform-origin: left;
+        background: #017e07;
+        animation: animate 1s 1s cubic-bezier(1,0,0.5,1) forwards;
+      }
+      .bar .progress-line.html span{
+        width: 90%;
+      }
+      .bar .progress-line.css span{
+        width: 60%;
+      }
+      .bar .progress-line.jquery span{
+        width: 85%;
+      }
+      .bar .progress-line.python span{
+        width: 50%;
+      }
+      .bar .progress-line.mysql span{
+        width: 75%;
+      }
+      .progress-line span::before{
+        position: absolute;
+        content: "";
+        top: -10px;
+        right: 0;
+        height: 0;
+        width: 0;
+        border: 7px solid transparent;
+        border-bottom-width: 0px;
+        border-right-width: 0px;
+        border-top-color: #000;
+        opacity: 0;
+        animation: showText2 0.5s 1.5s linear forwards;
+      }
+      .progress-line span::after{
+        position: absolute;
+        top: -28px;
+        right: 0;
+        font-weight: 500;
+        background: #000;
+        color: #fff;
+        padding: 1px 8px;
+        font-size: 12px;
+        border-radius: 3px;
+        opacity: 0;
+        animation: showText2 0.5s 1.5s linear forwards;
+      }
+      @keyframes showText2 {
+        100%{
+          opacity: 1;
+        }
+      }
+/*      .progress-line.html span::after{
+        content: "20%";
+      }
+      .progress-line.css span::after{
+        content: "20%";
+      }
+      .progress-line.jquery span::after{
+        content: "60%";
+      }*/
+    </style>
+  </head>
+  <body>
+    <!-- Because body has height 100%, we need a container to wrap the individual 
+    elements. The purpose is to add top & bottom padding -->
+    <div class="content-container">
+      <!-- success notification -->
+      <div id="notification" class="notification green-background">
+        <iconify-icon
+          icon="mdi:check-circle-outline"
+          style="color: black"
+          width="24"
+          height="24"
+        ></iconify-icon>
+        <p>The task was deleted</p>
+      </div>
+      <!-- header -->
+      <div class="max-width-container">
+        <div class="header flex items-center justify-between">
+          <div class="nav__logo">
+            <a href="homeview.html">
+              <img src="assets/pwc.png" alt="PWC Logo" class="logo-img">
+              <span class="logo-text">Student Planner</span>
+            </a>
+          </div>
+          <div class="buttons-container">
+            <div class="buttons-container">
+              <div class="profile-dropdown">
+                <div onclick="toggle()" class="profile-dropdown-btn">
+                  <div class="profile-img">
+                    <i class="fa-solid fa-circle"></i>
+                  </div>
+        
+                  <span
+                    >Student
+                    <i class="fa-solid fa-angle-down"></i>
+                  </span>
+                </div>
+        
+                <ul class="profile-dropdown-list">
+                  <li class="profile-dropdown-list-item">
+                    <a href="profileview.html">
+                      <i class="fa-regular fa-user"></i>
+                      Edit Profile
+                    </a>
+                  </li>
+        
+                  <hr />
+        
+                  <li class="profile-dropdown-list-item">
+                    <a onclick="logout()">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      Log out
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- radio buttons -->
+      <div class="radio-buttons-container">
+        <div class="max-width-container flex">
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="listview.html">
+              <iconify-icon
+                icon="material-symbols:format-list-bulleted-rounded"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Scheduled List</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="boardview.html">
+              <iconify-icon
+                icon="fluent:board-16-regular"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Board</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="calendarview.html">
+              <iconify-icon
+                icon="ic:round-event"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Calendar</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="notesview.html">
+              <iconify-icon
+                icon="mdi:note-plus-outline"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Notes</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="progressview.html">
+              <iconify-icon
+                icon="bi:bar-chart-line"
+                style="color: maroon; font-weight: bold;"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span style="color: maroon; font-weight: bold;">My Progress</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="drawview.html">
+              <iconify-icon
+                icon="mdi:draw-pen"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Draw</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- tasks -->
+      <div class="center">
+        <div class="skill-bars">
+          <div class="bar">
+            <div class="info">
+              <span>To Do</span>
+            </div>
+            <div id="progress-line-html" class="progress-line html">
+              <span></span>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="info">
+              <span>Doing</span>
+            </div>
+            <div id="progress-line-css" class="progress-line css">
+              <span></span>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="info">
+              <span>Done</span>
+            </div>
+            <div id="progress-line-jquery" class="progress-line jquery">
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+      import { getAuth } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+      import { getDatabase, ref, get, child} from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAT3IkIdZfoTQ_WWlMo9WjB87_hEZ9H7s8",
+        authDomain: "pwc-studentplanner-system.firebaseapp.com",
+        databaseURL: "https://pwc-studentplanner-system-default-rtdb.firebaseio.com",
+        projectId: "pwc-studentplanner-system",
+        storageBucket: "pwc-studentplanner-system.appspot.com",
+        messagingSenderId: "567680897211",
+        appId: "1:567680897211:web:9dc86820eb1782a90c199e"
+      };
+
+      const firebaseApp = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const database = getDatabase();
+      const dbref = ref(database);
+      let emailadd = "";
+      let idno = "";
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        
+        const skillBars = document.querySelector('.skill-bars');
+
+        function updateProgress(todoCount, doingCount, doneCount) {
+          const totalTasks = todoCount+doingCount+doneCount;
+
+          if (totalTasks !== 0) {
+              const todoProgress = (todoCount / totalTasks) * 100;
+              const doingProgress = (doingCount / totalTasks) * 100;
+              const doneProgress = (doneCount / totalTasks) * 100;
+
+              const todoBar = skillBars.querySelector('.progress-line.html span');
+              const doingBar = skillBars.querySelector('.progress-line.css span');
+              const doneBar = skillBars.querySelector('.progress-line.jquery span');
+
+              if (todoBar && doingBar && doneBar) {
+                  todoBar.style.width = `${todoProgress}%`;
+                  doingBar.style.width = `${doingProgress}%`;
+                  doneBar.style.width = `${doneProgress}%`;
+              } else {
+                  console.error('One or more progress bars not found in the DOM');
+              }
+
+          } else {
+              console.error('Total tasks count is 0');
+          }
+        }
+
+        function fetchData() {
+          const userIDnum = idno;
+          const todoRef = ref(database, `students/${userIDnum}/tasks/todo`);
+          const doingRef = ref(database, `students/${userIDnum}/tasks/doing`);
+          const doneRef = ref(database, `students/${userIDnum}/tasks/done`);
+
+          Promise.all([
+              get(todoRef),
+              get(doingRef),
+              get(doneRef)
+          ]).then((snapshots) => {
+              const todoData = snapshots[0].val();
+              const doingData = snapshots[1].val();
+              const doneData = snapshots[2].val();
+
+              const todoCount = todoData ? Object.keys(todoData).length : 0;
+              const doingCount = doingData ? Object.keys(doingData).length : 0;
+              const doneCount = doneData ? Object.keys(doneData).length : 0;
+
+              console.log("Todo count:", todoCount);
+              console.log("Doing count:", doingCount);
+              console.log("Done count:", doneCount);
+              updateProgress(todoCount, doingCount, doneCount);
+          }).catch((error) => {
+              console.error('Error fetching data:', error);
+          });
+        }
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                emailadd = user.email;
+                getIdNo(emailadd);
+            } else {
+                console.log("No user is currently signed in.");
+            }
+        });
+
+        function getIdNo(emailadd){
+            const regex = /@/;
+            const [first, second] = emailadd.split(regex);
+            get(child(dbref, `emailadds/${first}`)).then((snapshot) => {
+
+                if(snapshot.exists()){
+                    idno = snapshot.val();
+                    console.log("ID No. "+idno);
+                    fetchData();
+                }
+                else{
+                    console.log("On failed getIdNo(ProfileView): No Data Available");
+                }
+            }).catch((error) =>{
+                console.error('Error fetching ID:', error);
+            });
+        }
+    });
+    </script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <!-- js -->
+    <script src="js/main.js"></script>
+    <script>
+      function redirect() {
+        window.location.href = 'index.html';
+      }
+    </script>
+    <script>
+      let profileDropdownList = document.querySelector(".profile-dropdown-list");
+      let btn = document.querySelector(".profile-dropdown-btn");
+
+      let classList = profileDropdownList.classList;
+
+      const toggle = () => classList.toggle("active");
+
+      window.addEventListener("click", function (e) {
+        if (!btn.contains(e.target)) classList.remove("active");
+      });
+    </script>
+    <script>
+      function logout() {
+          Swal.fire({
+              icon: 'info',
+              title: 'Logging Out',
+              text: 'Thank you for using the PWC Student Planner App',
+              timer: 2000, // Set a timer to automatically close the alert after 2 seconds
+              showConfirmButton: false // Hide the "OK" button
+          }).then(() => {
+              // Redirect to index.html after logout
+              window.location.href = "index.html";
+          });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  </body>
+</html>

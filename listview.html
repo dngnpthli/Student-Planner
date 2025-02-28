@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWC STUDENT PLANNER | DASHBOARD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="assets/logopwc.png" rel="icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="notes/style.css">
+    <link rel="stylesheet" href="css/window.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <style>
+      .maroon-background {
+        background-color: maroon;
+        color: white;
+      }
+      .khaki-background {
+        background-color: #fffaf0;
+      }
+
+      .date-schedule-container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .date-input-container,
+      .schedule-input-container {
+        flex: 1;
+      }
+
+      .input-container {
+        display: flex;
+        align-items: center;
+      }
+
+      #calendar-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 20px; /* Adjust size as needed */
+        color: #333; /* Adjust color as needed */
+      }
+
+      .select-box {
+        position: relative;
+      }
+
+      .select-box::after {
+        font-size: 20px;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        pointer-events: none;
+        transform: translateY(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Because body has height 100%, we need a container to wrap the individual 
+    elements. The purpose is to add top & bottom padding -->
+    <div class="content-container">
+      <!-- success notification -->
+      <div id="notification" class="notification green-background">
+        <iconify-icon
+          icon="mdi:check-circle-outline"
+          style="color: black"
+          width="24"
+          height="24"
+        ></iconify-icon>
+        <p>The task was deleted</p>
+      </div>
+      <!-- header -->
+      <div class="max-width-container">
+        <div class="header flex items-center justify-between">
+          <div class="nav__logo">
+            <a href="homeview.html">
+              <img src="assets/pwc.png" alt="PWC Logo" class="logo-img">
+              <span class="logo-text">Student Planner</span>
+            </a>
+          </div>
+          <div class="buttons-container">
+            <button id="add-task-cta" class="button regular-button maroon-background">
+              Add New Events or Schedule
+            </button>
+            <div class="buttons-container">
+              <div class="profile-dropdown">
+                <div onclick="toggle()" class="profile-dropdown-btn">
+                  <div class="profile-img">
+                    <i class="fa-solid fa-circle"></i>
+                  </div>
+        
+                  <span
+                    >Student
+                    <i class="fa-solid fa-angle-down"></i>
+                  </span>
+                </div>
+        
+                <ul class="profile-dropdown-list">
+                  <li class="profile-dropdown-list-item">
+                    <a href="profileview.html">
+                      <i class="fa-regular fa-user"></i>
+                      Edit Profile
+                    </a>
+                  </li>
+        
+                  <hr />
+        
+                  <li class="profile-dropdown-list-item">
+                    <a onclick="logout()">
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      Log out
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- radio buttons -->
+      <div class="radio-buttons-container">
+        <div class="max-width-container flex">
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="listview.html">
+              <iconify-icon
+                icon="material-symbols:format-list-bulleted-rounded"
+                style="color: maroon; font-weight: bold;"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span style="color: maroon; font-weight: bold;">Scheduled List</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="boardview.html">
+              <iconify-icon
+                icon="fluent:board-16-regular"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Board</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="calendarview.html">
+              <iconify-icon
+                icon="ic:round-event"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Calendar</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="notesview.html">
+              <iconify-icon
+                icon="mdi:note-plus-outline"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Notes</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="progressview.html">
+              <iconify-icon
+                icon="bi:bar-chart-line"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>My Progress</span>
+            </a>
+          </div>
+          <!-- Add more navigation links as needed -->
+          <div class="nav-item">
+            <a class="nav-link radio-label" href="drawview.html">
+              <iconify-icon
+                icon="mdi:draw-pen"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Draw</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- tasks -->
+      <div class="max-width-container">
+        <!-- list view -->
+        <div id="list-view" class="list-view">
+          <div class="list-container pink">
+            <h2 class="list-header">
+              <span class="circle pink-background"></span
+              ><span class="text">Scheduled Events</span>
+            </h2>
+            <ul id="event-schedule-list" class="tasks-list">
+            </ul>
+          </div>
+          <div id="list-view" class="list-view">
+            <div class="list-container pink">
+              <h2 class="list-header">
+                <span class="circle pink-background"></span
+                ><span class="text">Class Schedule</span>
+              </h2>
+              <ul id="class-schedule-list" class="tasks-list">
+              </ul>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- view task -->
+    <div id="view-task-overlay" class="overlay view-task-overlay hide">
+      <div class="overlay-content blue-background">
+        <!-- close button -->
+        <button
+          class="button circle-button green-background flex justify-center items-center close-button"
+        >
+          <iconify-icon
+            icon="material-symbols:close-rounded"
+            style="color: white"
+            width="26"
+            height="26"
+          ></iconify-icon>
+        </button>
+        <h1 class="header no-margin">Name</h1>
+        <p class="value">Defense</p>
+        <h1 class="header">Description</h1>
+        <p class="value">
+          Goodluck Us!! Love you Panelist
+        </p>
+        <div class="flex items-center">
+          <h1 class="header min-width">Date</h1>
+          <p class="value">December 11, 2023</p>
+        </div>
+        <div class="flex items-center">
+          <h1 class="header min-width">Status</h1>
+          <p class="value status-value">
+            <span class="circle blue-background"></span><span>Defense</span>
+          </p>
+        </div>
+        <div class="control-buttons-container">
+          <!-- edit button -->
+          <button
+            class="button circle-button green-background flex justify-center items-center"
+          >
+            <iconify-icon
+              icon="material-symbols:edit-rounded"
+              style="color: white"
+              width="24"
+              height="24"
+            ></iconify-icon>
+          </button>
+          <button
+            id="delete-task-cta"
+            class="button circle-button pink-background flex justify-center items-center"
+          >
+            <iconify-icon
+              icon="ic:round-delete"
+              style="color: white"
+              width="24"
+              height="24"
+            ></iconify-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src=js/listview.js></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <!-- js -->
+    <script src="js/main.js"></script>
+    <script>
+      function redirect() {
+        window.location.href = 'index.html';
+      }
+    </script>
+    <script>
+      document.getElementById("add-task-cta").addEventListener("click", function() {
+          window.location.href = "addlist.html";
+      });
+    </script>
+    <script>
+      let profileDropdownList = document.querySelector(".profile-dropdown-list");
+      let btn = document.querySelector(".profile-dropdown-btn");
+
+      let classList = profileDropdownList.classList;
+
+      const toggle = () => classList.toggle("active");
+
+      window.addEventListener("click", function (e) {
+        if (!btn.contains(e.target)) classList.remove("active");
+      });
+    </script>
+    <script>
+      function logout() {
+          Swal.fire({
+              icon: 'info',
+              title: 'Logging Out',
+              text: 'Thank you for using the PWC Student Planner App',
+              timer: 2000,
+              showConfirmButton: false
+          }).then(() => {
+              window.location.href = "index.html";
+          });
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  </body>
+</html>

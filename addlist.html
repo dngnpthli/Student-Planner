@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWC STUDENT PLANNER | DASHBOARD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="assets/logopwc.png" rel="icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- main css -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/window.css">
+    <link rel="stylesheet" href="css/signup.css">
+    <link rel="stylesheet" href="css/add.css">
+  </head>
+  <body>
+    <section class="container">
+        <button id="go-back-button" class="maroon-background">
+            <i class="material-icons"></i>Go Back
+        </button>
+        <header>
+            <b>Add Event and Schedule Here</b>
+        </header>
+        <form action="#" class="form">
+            <div class="input-box">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="titl" required />
+            </div>
+
+            <div class="input-box">
+                <label for="details"><b>Details</b></label>
+                <input type="text" name="details" id="dtail" required />
+            </div>
+
+            <div class="input-box">
+                <label for="calendar"><b>Date</b></label>
+                <div class="date-input-container">
+                    <input type="date" id="calendar-icon" name="calendar" required />
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="time"><b>Time</b></label>
+                <div class="time-input-container">
+                    <input type="time" id="time" name="time" required />
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label for="calendar"><b>Day of the Week</b></label>
+                <div class="select-box">
+                    <select type="schedule" name="day" id="day" class="input" required>
+                    <option hidden>Select a day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="input-box">
+                <label for="calendar"><b>Select Schedule</b></label>
+                <div class="select-box">
+                    <select type="schedule" name="schedule" id="sched" class="input" required>
+                    <option hidden>Select</option>
+                    <option value="class">Class Schedule</option>
+                    <option value="event">Event Schedule</option>
+                    </select>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="button regular-button maroon-background cta-button">
+                    Add task
+                </button>
+            </div>
+        </form>
+    </section>
+    <!-- import IconifyIcon web component -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <!-- js -->
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById("go-back-button").addEventListener("click", function() {
+            window.location.href = "listview.html";
+        });
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+        import { getDatabase, set, ref, push, get, child } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyAT3IkIdZfoTQ_WWlMo9WjB87_hEZ9H7s8",
+            authDomain: "pwc-studentplanner-system.firebaseapp.com",
+            databaseURL: "https://pwc-studentplanner-system-default-rtdb.firebaseio.com",
+            projectId: "pwc-studentplanner-system",
+            storageBucket: "pwc-studentplanner-system.appspot.com",
+            messagingSenderId: "567680897211",
+            appId: "1:567680897211:web:9dc86820eb1782a90c199e"
+        };
+
+        const firebaseApp = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const database = getDatabase();
+        const dbref = ref(database);
+        let emailadd = "";
+        let idno = "";
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                emailadd = user.email;
+                getIdNo(emailadd);
+            } else {
+                console.log("No user is currently signed in.");
+            }
+        });
+
+        function getIdNo(emailadd){
+            const regex = /@/;
+            const [first, second] = emailadd.split(regex);
+            get(child(dbref, `emailadds/${first}`)).then((snapshot) => {
+
+                if(snapshot.exists()){
+                    idno = snapshot.val();
+                }
+                else{
+                    console.log("On failed getIdNo(ProfileView): No Data Available");
+                }
+            }).catch((error) =>{
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to retrieve profile details.',
+                });
+            });
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+
+        document.querySelector('.form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('titl').value;
+            const details = document.getElementById('dtail').value;
+            const dueDate = document.getElementsByName('calendar')[0].value;
+            const time = document.getElementById('time').value;
+            const day = document.getElementById('day').value;
+            const schedule = document.getElementById('sched').value;
+            
+            if (!title || !details || !dueDate || !schedule) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please fill in all fields.',
+                });
+                return;
+            }
+
+            const auth = getAuth();
+            const user = auth.currentUser;
+
+            if (user) {
+
+                const userIDnum = idno;
+                const database = getDatabase();
+                const schedRef = ref(database, `students/${userIDnum}/${schedule}`);
+                const newSchedRef = push(schedRef);
+
+                set(newSchedRef, {
+                    title: title,
+                    details: details,
+                    dueDate: dueDate,
+                    time: time,
+                    day: day,
+                })
+                .then(() => {
+                    // Success message with options
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Your Schedule Added Successfully.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Add More',
+                        cancelButtonText: 'Go Back',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.querySelector('.form').reset();
+                        } else {
+                            window.location.href = 'listview.html';
+                        }
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error adding task: ", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to add schedule. Please try again.',
+                    });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'You are not logged in.',
+                });
+            }
+        });
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  </body>
+</html>

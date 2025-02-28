@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWC STUDENT PLANNER | SIGN UP PAGE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="assets/logopwc.png" rel="icon">
+    <!-- main css -->
+    <link rel="stylesheet" href="css/signup.css" />
+    <link rel="stylesheet" href="css/sign-entrypage.css" />
+    <link rel="stylesheet" href="css/signstyle.css" />
+  </head>
+  <body>
+    <section class="container">
+      <header>Register your Student Account here.</header>
+      <form action="#" class="form">
+        <div class="input-box">
+          <label for="firstname">Student First Name</label>
+          <input type="text" name="firstname" id="fname" placeholder="Enter first name" required />
+        </div>
+
+        <div class="input-box">
+          <label for="middlename">Student Middle Initial</label>
+          <input type="text" name="middlename" id="mname" placeholder="Enter middle initial (for example: C, A, L)" required />
+        </div>
+
+        <div class="input-box">
+          <label for="lastname">Student Last Name</label>
+          <input type="text" name="lastname" id="lname" placeholder="Enter last name" required />
+        </div>
+
+        <div class="gender-box">
+          <h3>Gender</h3>
+        </div>
+        <div class="column">
+          <div class="select-box">
+            <select type="gender" name="gender" id="gender" class="input" required>
+              <option hidden>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other/Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-box address">
+          <label>Address and School Information</label>
+          <input type="text" name="address" id="address" placeholder="Enter full address" required />
+          <div class="column">
+            <div class="select-box">
+              <select type="strand" name="strand" id="strand" class="input" required>
+                <option hidden>Select Strand</option>
+                <option value="STEM">Science, Technology, Engineering, and Mathematics (STEM)</option>
+                <option value="ABM">Accountancy, Business, and Management (ABM)</option>
+                <option value="HUMSS">Humanities and Social Sciences (HUMSS)</option>
+                <option value="TVL">Technical Vocational Livelihood (TVL)</option>
+                <option value="A&D">Arts and Design (A&D)</option>
+              </select>
+            </div>
+          </div>
+          <div class="column">
+            <input type="number" name="gradelevel" id="gradelevel" placeholder="Enter your grade level" required />
+            <input type="text" name="section" id="section" placeholder="Enter your section" required />
+          </div>
+          <div class="input-box">
+            <label for="schoolId">Student School ID</label>
+            <input type="text" name="schoolId" id="idnum" placeholder="Enter student ID (for example 22-1765-119)" required />
+          </div>
+        </div>
+        <div class="input-box">
+          <label for="email">Email</label>
+          <input type="text" name="email" id="email" placeholder="Enter your @email.com" required />
+        </div>
+        <div class="input-box">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="psw" placeholder="Enter your password" required />
+        </div>
+        <button id="submitData" type="button" name="submitData" class="button regular-button pink-background cta-btn" class="registerbtn">Submit</button>
+      </form>
+      <p class="sign-up-prompt">
+        Already have an account?
+        <a href="login.html" class="sign-up-link">Login</a>
+      </p>
+    </section>
+  </body>
+  <script type="module">
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+    import { getDatabase, set, ref, get } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAT3IkIdZfoTQ_WWlMo9WjB87_hEZ9H7s8",
+      authDomain: "pwc-studentplanner-system.firebaseapp.com",
+      databaseURL: "https://pwc-studentplanner-system-default-rtdb.firebaseio.com",
+      projectId: "pwc-studentplanner-system",
+      storageBucket: "pwc-studentplanner-system.appspot.com",
+      messagingSenderId: "567680897211",
+      appId: "1:567680897211:web:9dc86820eb1782a90c199e"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const database = getDatabase(app);
+
+    const submitDataButton = document.getElementById('submitData');
+
+    async function isEmailTaken(email) {
+      const snapshot = await get(ref(database, 'students'));
+      if (snapshot.exists()) {
+        const students = snapshot.val();
+        for (const key in students) {
+          if (students[key].email === email) {
+            return true;
+          }
+        }
+      }
+      return false; // Email not taken
+    }
+
+    async function isIdTaken(id) {
+      const snapshot = await get(ref(database, 'students/' + id));
+      return snapshot.exists();
+    }
+
+    submitDataButton.addEventListener('click', async (e) => {
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('psw').value;
+      const firstname = document.getElementById('fname').value;
+      const middlename = document.getElementById('mname').value;
+      const lastname = document.getElementById('lname').value;
+      const gender = document.getElementById('gender').value;
+      const address = document.getElementById('address').value;
+      const strand = document.getElementById('strand').value;
+      const gradelevel = document.getElementById('gradelevel').value;
+      const section = document.getElementById('section').value;
+      const idnum = document.getElementById('idnum').value;
+
+      if (!email || !password || !firstname || !middlename || !lastname || !gender || !address || !strand || !gradelevel || !section || !idnum) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Something went wrong!',
+          text: 'Please fill in all fields!',
+        });
+        return;
+      }
+
+      if (!idnum.startsWith('22')) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid PWC Student ID',
+          text: 'Student ID must start with "22"',
+        });
+        return;
+      }
+
+      if (!isStrongPassword(password)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Weak Password',
+          text: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and have a minimum length of 8 characters.',
+        });
+        return;
+      }
+
+      // Check if grade level is within the range 11-12
+      if (gradelevel < 11 || gradelevel > 12) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Grade Level',
+          text: 'Grade level must be between 11 and 12.',
+        });
+        return;
+      }
+
+      const emailTaken = await isEmailTaken(email);
+      if (emailTaken) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Email Already Taken',
+          text: 'The email you entered is already registered. Please use a different email address.',
+        });
+        return;
+      }
+
+      const idTaken = await isIdTaken(idnum);
+      if (idTaken) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Student ID Already Taken',
+          text: 'The student ID you entered is already registered. Please use a different student ID.',
+        });
+        return;
+      }
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          set(ref(database, 'students/' + idnum), {
+            email: email,
+            firstname: firstname,
+            middlename: middlename,
+            lastname: lastname,
+            gender: gender,
+            address: address,
+            strand: strand,
+            gradelevel: gradelevel,
+            section: section,
+            idnum: idnum
+          })
+          .then(() => {
+            set(ref(database, 'IdNos/' + idnum), email)
+            .then(() => {
+              const regex = /@/;
+              const [first, second] = email.split(regex);
+              set(ref(database, 'emailadds/' + first), idnum)
+              .then(() => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'User Created Successfully!',
+                  text: 'Redirecting to login page...',
+                }).then(() => {
+                  window.location.href = 'login.html';
+                });
+              })
+              .catch((error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Registration Error',
+                  text: 'Failed to save email with idnum to database.',
+                });
+              });
+            })
+            .catch((error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Registration Error',
+                text: 'Failed to save idnum with email to IdNos node.',
+              });
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Registration Error',
+              text: 'Failed to save user details.',
+            });
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    });
+
+    function isStrongPassword(password) {
+
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+      return regex.test(password);
+    }
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</html>

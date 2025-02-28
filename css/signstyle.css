@@ -1,0 +1,75 @@
+/* custom properties */
+:root {
+  /* color */
+  --black: #000;
+  --dark-gray: #504e4e;
+  --blue: #82cfff;
+  --maroon: #a52a2a;
+  --green: #abe5bc;
+  --beige: #fffaf0;
+  --white: #fff;
+
+  /* shadow */
+  --green-shadow: 6px 6px 0px var(--green);
+  --blue-shadow: 6px 6px 0px var(--blue);
+  --maroon-shadow: 6px 6px 0px var(--maroon);
+  --black-shadow: 4px 4px 0px var(--black);
+
+  /* space */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+
+  /* radius */
+  --radius-8: 8px;
+
+  /* form elements */
+  --input-height: 45px;
+}
+
+
+/* utility classes */
+.white-background {
+  background-color: var(--white);
+}
+
+.blue-background {
+  background-color: var(--blue);
+}
+
+.pink-background {
+  background-color: var(--maroon);
+}
+
+.green-background {
+  background-color: var(--green);
+}
+
+/* shared style */
+.button {
+  border: 2px solid var(--black);
+  box-shadow: var(--black-shadow);
+  border-radius: var(--radius-8);
+}
+
+.regular-button {
+  font-weight: 600;
+  padding-inline: var(--space-16);
+  height: var(--input-height);
+}
+
+.circle-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  padding: var(--space-8);
+}
+
+.circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+}

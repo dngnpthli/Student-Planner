@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWC STUDENT PLANNER | ADMIN DASHBOARD</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="assets/logopwc.png" rel="icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo"></div>
+        <ul class="menu">
+            <li class="active">
+                <a href="#">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-user"></i>
+                    <span>Students</span>
+                </a>
+            </li>
+
+            <li class="logout">
+                <a href="login.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- Main Content -->
+    <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <span>Student Planner System</span>
+                <h2>Admin Dashboard</h2>
+            </div>
+            <div class="user--info">
+                <div class="search--box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search">
+                </div>
+            </div>
+            <img src="assets/logopwc.png" alt="">
+        </div>
+
+        <div class="card--container">
+            <h3 class="main--title">Today's data</h3>
+            <div class="card--wrapper">
+                <div class="payment--card light--red">
+                    <div class="card--header">
+                        <div class="amount">
+                            <span class="title">
+                                Pending Students
+                            </span>
+                            <span class="amount--value">31</span>
+                        </div>
+                        <i class="fas fa-solid fa-clipboard-user icon"></i>
+                    </div>
+                </div>
+
+                <div class="payment--card light--purple">
+                    <div class="card--header">
+                        <div class="amount">
+                            <span class="title">
+                                Accepted Students
+                            </span>
+                            <span class="amount--value">121</span>
+                        </div>
+                        <i class="fas fa-solid fa-circle-check icon dark--purple"></i>
+                    </div>
+                </div>
+
+                <div class="payment--card light--green">
+                    <div class="card--header">
+                        <div class="amount">
+                            <span class="title">
+                                Registered Students
+                            </span>
+                            <span class="amount--value">121</span>
+                        </div>
+                        <i class="fas fa-users icon dark--green"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tabular--wrapper">
+            <h3 class="main--title">To Review</h3>
+            <div class="table--container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Section</th>
+                            <th>Gender</th>
+                            <th>Grade Level</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                22-1249-967
+                            </td>
+                            <td>Zhanrie Mansalayao</td>
+                            <td>Resilience</td>
+                            <td>Male</td>
+                            <td>12</td>
+                            <td>Approved</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                22-1435-897
+                            </td>
+                            <td>Earl Josh</td>
+                            <td>Resilience</td>
+                            <td>Male</td>
+                            <td>12</td>
+                            <td>Pending</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                22-1459-876
+                            </td>
+                            <td>John Mark</td>
+                            <td>Resilience</td>
+                            <td>Male</td>
+                            <td>12</td>
+                            <td>Pending</td>
+                            <td><button>Edit</button></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">Total Students: 121</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

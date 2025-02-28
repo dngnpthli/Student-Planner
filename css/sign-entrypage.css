@@ -1,0 +1,13 @@
+.sign-up-prompt,
+.login-prompt {
+  font-weight: 500;
+  font-size: var(--font-size-14);
+  margin-top: var(--space-32);
+  text-align: center;
+}
+
+.sign-up-link,
+.log-in-link {
+  font-weight: 600;
+  text-decoration: underline;
+}

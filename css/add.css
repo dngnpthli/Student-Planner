@@ -1,0 +1,44 @@
+.maroon-background {
+    background-color: maroon;
+    color: white;
+}
+.khaki-background {
+    background-color: #fffaf0;
+}
+/* CSS for label */
+.input-box label {
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+.input-box input[type="text"],
+.input-box input[type="date"],
+.input-box select {
+    color: black;
+}
+.select-box select {
+    height: 25px; /* Adjust height as needed */
+    padding: 1px; /* Adjust padding as needed */
+}
+#calendar-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 20px; /* Adjust size as needed */
+    color: #333; /* Adjust color as needed */
+}
+#go-back-button {
+    background-color: maroon;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    font-size: 1em;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+#go-back-button i {
+    margin-right: 5px;
+    font-size: 1em; /* Adjust icon size */
+}
